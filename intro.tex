@@ -1,0 +1,11 @@
+\section{Introduction}
+In this work, we are interested in a supervised classification problem, where the goal is to predict the diagnostic status of an individual using functional connectomes (FCs) derived from resting-state fMRI (rs-fMRI) \cite{Castellanos:2013}. 
+Fortunately, with various data sharing projects emerging in the neuroimaging community~\cite{Poline:2012,ADHD200}, we have access to training data of unprecedented sample size.
+However, such community-wide collaborative efforts typically involve aggregating data from multiple imaging sites, which introduces several sources of systematic confounds, such as variability in the scanner quality, image acquisition protocol, subject demographics, etc.
+In order to effectively make use of these multisite datasets, it is important to train the classifiers in a way that accounts for these site-specific heterogeneities. 
+To this end, we propose a classification framework that adopts a multitask learning (MTL) approach \cite{Obozinski:2010,Chen:2012b, Rao:2013,Marquand:2014}.
+
+The idea behind MTL is to \emph{jointly} train multiple tasks in order to improve classification performance, under the assumption that the tasks are related to each other in some sense.
+Recently, MTL methods have been successfully applied in brain decoding \cite{Rao:2013,Marquand:2014}, where the \emph{participants} from a multi-subject fMRI study are treated as the tasks.
+The underlying assumption here is that the brain regions that are activated from a stimulus will share similar patterns across different tasks/subjects.
+In contrast to these works, the method we propose in this work treats the \emph{sites} from which the rs-fMRI scans are collected as the tasks.

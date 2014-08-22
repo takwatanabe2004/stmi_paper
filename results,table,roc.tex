@@ -1,0 +1,47 @@
+\begin{figure}[t!]
+		\captionof{table}{The classification results from the \mbox{$5$-fold CV} and the validation test-set.}\label{table:results}\vspace{-7pt}
+		\centering
+		\renewcommand{\FSIZE}[1]{\normalsize{#1}}
+		\renewcommand{\HSPACE}{\hspace{-5.5pt}}
+		\setlength{\tabcolsep}{2.7pt}
+		\renewcommand{\arraystretch}{1.25} % space between rows
+	\tfontsize{10.25}{
+	\begin{tabular}{cc||cccc|ccccc}
+		\specialrule{.8pt}{0em}{0em} 
+		&& \multicolumn{4}{c|}{CV (628 subjects)}& \multicolumn{5}{c}{Test-set (106 subjects)}\\
+		&& \FSIZE{ACC} & \FSIZE{AUC} & \FSIZE{BSR} & Stab. & \FSIZE{ACC}  & \FSIZE{AUC} & \FSIZE{BSR} & \FSIZE{PVAL} & SP\% \\
+		 	\hline\hline
+		  		     				% ACC(CV)  AUC(CV)   BSR(CV) 	(Stab)	ACC(TS)   AUC(TS)   BSR(TS)  		pval 	(NF)
+		EN & \HSPACE\FSIZE{(\ellone)} 	& .689  	& .687	& .630	& .277	& .557 	& .617	& .476	& 	.143	& 2.54\%	\\
+		GN & \HSPACE\FSIZE{(\ellone)} 	& .704  	& .708	& .631	& .253	& .594 	& .608	& .494	& 	.032	& 28.88\%	\\
+		FL & \HSPACE\FSIZE{(\ellone)} 	& .688  	& .720	& .586	& .059	& .632 	& .592	& .530 	&	.004	& 64.85\%	\\
+		TV & \HSPACE\FSIZE{(\ellone)} 	& .701  	& .715	& .620	& .005	& .623 	& .608	& .521 	&	.007	& 90.32\%	\\
+			\hline 
+		EN & \HSPACE\FSIZE{ (\STL)} 		& .709  	& .752	& .649	& .276	& .623 	& .609	& .530 	&	.007	& 0.28\%	\\
+		GN & \HSPACE\FSIZE{ (\STL)} 		& .713  	& .750	& .652	& .165	& .642 	& .613	& .573 	&	.002	& 67.14\%	\\
+		FL & \HSPACE\FSIZE{ (\STL)} 		& .715  	& .750	& .659	& .329	& .632 	& .634	& .547	&	.004	& 1.30\%	\\
+		TV & \HSPACE\FSIZE{ (\STL)} 		& .718  	& .753	& .661	& .345	& .642 	& .654	& .550	&	.002	& 1.61\%	\\
+			\hline 
+		EN & \HSPACE\FSIZE{ (\MTL)} 		& .720  	& .754	& .657	& .217	& .651 	& .645	& .556	&	.001	& 0.25\%	\\
+		GN & \HSPACE\FSIZE{ (\MTL)} 		& .720  	& .766	& .657	& .320 	& .642 	& .668	& .546	&	.002	& 1.03\%	\\
+		FL & \HSPACE\FSIZE{ (\MTL)}		& .718  	& .766	& .653	& .315	& .642 	& .673	& .546	&	.002	& 0.79\%	\\
+		TV & \HSPACE\FSIZE{ (\MTL)}		& .720 	& .766	& .658	& .316 	& .642 	& .672	& .546	&	.002	& 0.80\%	\\
+		\specialrule{.8pt}{0em}{0em}
+	\end{tabular}}\vspace{2pt}
+	\label{table:reults,a}
+	%=========================================================================%
+	% figure
+	%=========================================================================%
+	\renewcommand{\imwidth}{130pt}
+	\renewcommand{\imheight}{130pt}
+		\renewcommand{\FSIZE}[1]{\tfontsize{9.75}{\textbf{#1}}}
+		\centering
+		\begin{tabular}{cc}
+			\hspace{15pt}\FSIZE{CV (628 subjects)} &
+			\hspace{15pt}\FSIZE{Test-set (128 subjects)} \\[-3pt]
+			\includegraphics[width=\imwidth,height=\imheight]{roc_CV.pdf}&			
+			\includegraphics[width=\imwidth,height=\imheight]{roc_test.pdf}			
+		\end{tabular}
+		\label{fig:roc}
+		\captionof{figure}{\tfontsize{9}{Table 1 classifiers' ROC (\STL-curves omitted to improve curve visibility).}}\vspace{-15pt}
+\end{figure}

@@ -1,0 +1,35 @@
+\documentclass[runningheads,a4paper]{llncs}
+\input{init}
+
+\setlength\abovedisplayskip{511pt plus 21pt minus 112pt}
+%-------------------------------------------------------------------------%
+% stuffs from LNCS template
+\setcounter{tocdepth}{3}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+%-------------------------------------------------------------------------%
+
+%*************************************************************************%
+% Begin document
+%*************************************************************************%
+\begin{document}
+
+%========================================%
+% Front matter
+%========================================%
+\input{f,front}
+
+%========================================%
+% main body
+%========================================%
+\input{intro}
+\input{methods}
+\input{experiments}
+\input{conclusion}
+
+%========================================%
+% bibliography
+%========================================%
+\bibliographystyle{splncs03}
+\bibliography{mybib}
+\end{document}

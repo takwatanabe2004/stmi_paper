@@ -1,0 +1,37 @@
+%=========================================================================%
+% Paper title
+%=========================================================================%
+\renewcommand{\HSPACE} {\hspace{-1.9pt}}
+\newcommand{\MYTITLE}{\hspace{-5pt}Multisite Disease Classification with Functional \\ \hspace{-15pt} Connectomes \HSPACE via \HSPACE Multitask \HSPACE Structured \HSPACE Sparse \HSPACE SVM}
+
+\title{\MYTITLE}
+
+\newcommand{\MYTITLERUN}{Multisite Disease Classification via Multitask Structured Sparse SVM}
+\titlerunning{{\MYTITLERUN}}
+
+%=========================================================================%
+% the name(s) of the author(s) follow(s) next
+%=========================================================================%
+\author{Takanori Watanabe$^1$, Daniel Kessler$^2$, Clayton Scott$^1$, Chandra Sripada$^2$}
+\authorrunning{{T. Watanabe, D. Kessler, C. Scott, C. Sripada}} 
+\institute{$^1$Department of EECS, $^2$Department of Psychiatry \\ University of Michigan, Ann Arbor, MI 48109, USA\\
+\mailsa\\}
+\urldef{\mailsa}\path|{takanori, kesslerd, clayscot, csripada}@umich.edu|
+\maketitle
+
+%=========================================================================%
+% abstract
+%=========================================================================%
+\begin{abstract}
+There is great interest in developing imaging-based methods for diagnosing neuropsychiatric conditions. 
+To this end, multiple data-sharing initiatives have been launched in the neuroimaging field, where datasets are collected across multiple imaging sites.
+While this enables researchers to study the disorders of interest with substantial sample size, it also creates new challenges since the data aggregation process introduces various sources of \mbox{site-specific} heterogeneities.
+To address this issue, we introduce a multitask structured sparse support vector machine (SVM) that uses resting state functional connectomes (FCs) as the features for predicting diagnostic labels.
+Specifically, we employ a penalty that accounts for the following two-way structure that exists in a multisite FC dataset: (1)~the $6$-D \emph{spatial structure} in the FCs captured via either the GraphNet, fused Lasso, or the isotropic total variation penalty, and (2) the \emph{inter-site} structure captured via the multitask \MTL-penalty.
+To solve the resulting high dimensional optimization problem, we introduce an extension to a recently proposed algorithm based on the alternating direction method.
+The potential utility of the proposed method is demonstrated on the multisite ADHD-200 dataset. 
+\keywords{Multitask learning, structured sparsity, support vector machine, resting-state fMRI, alternating direction method}
+\end{abstract}
+
+\setlength{\abovedisplayskip}{4.5pt}
+\setlength{\belowdisplayskip}{6pt}

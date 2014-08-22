@@ -1,0 +1,89 @@
+\vspace{-2pt}\section{Experiments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dataset description
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-2pt}\paragraph{The ADHD-200 Dataset.}
+We used the publicly available ADHD-200 competition dataset \cite{ADHD200}, which contains rs-fMRI scans of subjects diagnosed as either typically developing (TD) or with ADHD. 
+The dataset is collected across seven sites and consists of two parts: a training set and a validation test set (Brown site excluded from our study as the subject labels are not released).
+Analyses were limited to participants with: 
+(1)~MPRAGE anatomical images with consistent near-full brain coverage with successful registration; 
+(2)~complete phenotypic information for main phenotypic variables (diagnosis, age, handedness); 
+(3)~mean framewise displacement (FD) within two standard deviation (SD) of the sample mean;
+(4)~full IQ within two SDs of the \mbox{ADHD-200} sample mean.
+After applying these sample selection criteria, we analyzed resting state scans from $628$ individuals (TD${=}416$, ADHD${=}212$) in the training set and $106$ subjects (TD${=}65$, ADHD${=}41$) in the test set.
+Functional images were reconstructed, slice-time corrected, motion corrected, and co-registered to the MNI space using SPM$8$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Experimental results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-3pt}\paragraph{Experimental Results.}
+To assess the validity of the proposed method, we compared the performance of various SVM-based classifiers using the ADHD-200 dataset, where resting-state FCs were produced using the parcellation scheme described in Sec.~\ref{sec:methods}.
+For the intra-task penalty \RegA, we compared four different regularization schemes: Elastic-net (EN) \cite{Chen:2012b} with $\RegA(\w)=\frac{1}{2}\norm{\w}^2_2$, GN, FL, and TV.  
+For the inter-task penalty \RegB, we compared three different approaches:
+\begin{enumerate}[leftmargin=14pt]\vspace{-3pt}% http://tex.stackexchange.com/questions/91124/itemize-removing-natural-indent
+	\item\textbf{Pooled} \ellone: a single classifier is trained on the entire ADHD-200 dataset ($\RegB(\wall)\,{=}\,\norm{\wall}_1$ with $\wall\,{\in}\,\Rp$ as $K\,{=}\,1$).
+	\item \textbf{Single-task} \STL: equivalent to training separately across sites due to the separability of the penalty across sites ($\RegB(\wall)\,{=}\,\sum_{j=1}^p\norm{\w_j}_1)$.
+	\item \textbf{Multitask} \MTL: \emph{jointly} train the classifiers by solving \eqref{eqn:erm2}.
+\end{enumerate}\vspace{-3pt}
+The regularization parameters $\{\lambda,\gamma\}$ are tuned by conducting a $5$-fold cross-validation (CV) on the training set over the following two-dimensional grid:
+$\lambda,\gamma{\in}\{2^{-13},2^{-12},{\dots},2^{-3}\}$.
+The final weight vector estimate is obtained by re-training the classifiers on the entire training set using the $\{\lambda,\gamma\}$ values that maximized the CV classification accuracy; 
+for validation, we predicted the labels of the test set subjects using this weight vector.
+All methods were solved using ADMM with the algorithm terminated when the condition 
+\sloppy{$\norm{\wall^\text{new}-\wall^\text{old}}_2 \,{\leq}\,5{\cdot}10^{-3}{\times}\norm{\wall^\text{old}}_2$}
+was met or the iteration count reached $400$.
+
+\newcommand{\hsp}{\hspace{-1pt}}
+%=========================================================================%
+% introduce list of classification performance measures
+%=========================================================================%
+To evaluate the quality of the classifiers, we analyzed the following set of performance measures for both the \mbox{$5$-fold CV} and the validation test set results:
+\begin{itemize}\vspace{-3pt}
+	\item Classification accuracy (ACC) 
+	\item Area under the ROC curve (AUC)
+	\item Balanced score rate (BSR) $=$ (sensitivity+specificity)$/2$
+	\item Stability score (Stab.) $=$ a measure of feature selection stability (see \cite{Baldassarre:2012, Rasmussen:2012})
+	\item P-value (PVAL) computed from binomial test.
+	\item Sparsity level (SP\%) $=100\cdot\frac{\abs{\text{\# non-zero features}}}{pK}$
+\end{itemize}\vspace{-3pt}
+The\hspace{-1pt} \emph{AUC} and \emph{BSR} are analyzed since \emph{ACC} by itself can be misleading when the dataset labels are imbalanced (ACC, \hsp AUC, and BSR are averaged across the tasks); the ROC curves are constructed by varying the threshold of the classifiers.
+\emph{Stability score} is a measure introduced in \cite{Rasmussen:2012} which quantifies the stability of the features selected across the CV folds (see~\cite{Baldassarre:2012, Rasmussen:2012} for its precise definition).
+Classifier performance on the test set was compared to random guessing via a binomial test based on a binomial distribution $B($p$,$n$)$ with p${=}0.5$ and n${=}109$ samples, with \emph{PVAL} evaluated via an one-sided binomial test~\cite{Heinzle:2012}; the alternative approach of permutation test was not pursued due to its severe computational \mbox{cost}.
+Finally, \emph{sparsity level} is the fraction of features selected in the final model.
+
+%-------------------------------------------------------------------------%
+% Results Table & ROC
+%-------------------------------------------------------------------------%
+\input{results,table,roc}
+
+%=========================================================================%
+% discussion on result on table1 and roc curve
+%=========================================================================%
+Table~\ref{table:results} presents the classification results from the \mbox{$5$-fold CV} and validation on the test-set, and Fig.~\ref{fig:roc} displays the corresponding ROC curves.
+These results demonstrate that training a single classifier via the ``pooling'' approach yields the worst performance in terms of accuracy, AUC, and BSR, suggesting that blindly aggregating the datasets across different sites can be problematic for accurate disease classification. 
+Comparison between the single-task and the multitask approaches shows that the \MTL-penalized approach  yields superior performance in terms of AUC, although no striking difference can be observed in terms of accuracy and BSR.
+
+%=========================================================================%
+% discussion on the results
+%=========================================================================%
+In addition to the performance gain with the \MTL-penalty, the set of weight vector estimates $\{\hat{\w}^k\}_{k=1}^K$ all share a common support of length $p$ with this multitask approach. 
+This is invaluable for interpretation, as the selected features can be viewed as edges that are informative across all sites.
+For visualization, we grouped the indices of this support according to the network parcellation scheme proposed by Yeo \etal in~\cite{Yeo:2011}, and reshaped them into a $347{\times}347$ symmetric matrix with zeroes on the diagonal. 
+The resulting support matrices for the EN+\MTL and the FL+\MTL-penalized SVM are presented in Fig.\hspace{2.5pt}\ref{fig:weight} (results for GN+\MTL and TV+\MTL were very similar to FL+\MTL).
+An interesting observation here is that the support structure from the FL+\MTL-penalized SVM shows concentrated connectivity patterns in the intra-frontoparietal \mbox{(6-6)} and the intra-default network (7-7) regions; Fig.~\ref{fig:weight} provides a brain space representation of these connections (figures generated using BrainNet Viewer, \url{www.nitrc.org/projects/bnv/}).
+These network regions are frequently reported to exhibit disrupted connectivity patterns in resting state studies of ADHD~\cite{Castellanos:2012}, although the accuracies obtained from our classifiers are not at the level where the selected features can be interpreted as reliable ADHD biosignatures. 
+
+\vspace{-.75pt}
+Finally, we note that most of the accuracies reported on the validation test-set in Table~\ref{table:results} exceeded the highest result from the actual  ADHD-200 competition (which was $61.54\%$~\cite{ADHD200}).
+However, there are two major caveats:
+(1) the results in this work cannot be directly compared with the official competition results due to the subject screening procedure we applied on the test set (the criteria such as the FD-based one is important for avoiding  confounds from excessive head motion), and
+(2) the participants in the actual competition were required to predict the labels of $26$ subjects from the Brown site, despite the fact that no training data were provided from this site, making it harder to predict the labels for these subjects.
+The second caveat also implies that most MTL methods, including the \MTL-penalty employed in this work, cannot be applied since there are no means to train a weight vector for a task whose data are not provided.
+An alternative approach such as \emph{transfer learning}~\cite{Pan:2010} may be considered for this.
+
+%-------------------------------------------------------------------------%
+% Results: Brain-net viewer
+%-------------------------------------------------------------------------%
+\input{results,yeotable,bnv}
+
+

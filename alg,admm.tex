@@ -1,0 +1,94 @@
+\begin{figure}
+{\begin{minipage}{0.999\textwidth}\vspace{-25pt}
+\algrenewcommand\algorithmicindent{14pt} % <- (03/16/2014) change indentation http://tex.stackexchange.com/questions/47695/change-indentation-size-in-algorithmicx-package
+%\setlength{\textfloatsep}{15pt}% <- to suppress annoying white-space after alg
+\renewcommand{\HSPACE}{\hspace{3pt}}
+\begin{algorithm}[H] % <- (06/04/2014)for somereason, adding [H] option allows "algorithm" env to be inside figure env
+\floatname{algorithm}{Alg.} % <- allows me to change the caption header
+\caption{ADMM for Multitask Structured Sparse SVM}
+\label{alg:admm}
+\renewcommand{\FSIZE}[1]{\tfontsize{9pt}{#1}}
+\begin{algorithmic}[1]
+\begin{spacing}{1.09}
+\tfontsize{9.45pt}{\vspace{0pt}
+	\State Initialize variables, assign hyperparameters $\lambda,\gamma\geq 0$\vspace{0pt}
+	\Repeat\vspace{2pt}
+		%%%%%%%%%%%%%%%%%      FOR LOOP     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		\For{$k=1,\dots,K$}
+			%==================================================%
+			% w update
+			%==================================================%
+			\State\HSPACE$\wk\leftarrow$
+				$((\Xk)^T\Xk{+}2\I_p)\inv\big\{(\Yk\Xk)^T\left(\vak{-}\uak\right)\left(\vbk{-}\ubk\right){+}\A^T\left(\vdk{-}\udk\right)\big\}$
+				\vspace{-8pt}\Statex\Comment{\FSIZE{solve using matrix inversion Lemma}}\vspace{2pt}
+			
+			%==================================================%
+			% v3 update
+			%==================================================%
+			\State\HSPACE $\vck \leftarrow$
+				$\begin{cases}
+					\text{apply Equation \eqref{eqn:prox}} 
+						& \text{if } q\,{=}\,1 \text{ (FL)}\\
+					\rho(\gamma\B+\rho\I)\inv\Ctil(\vdk-\uck) 
+						& \text{if } q\,{=}\,2 \text{ (GN)}\\
+				\end{cases}$
+
+			%==================================================%
+			% v1 update
+			%==================================================%
+			\State\HSPACE $\vak {\leftarrow} \prox_{\loss/(\rho{}n_k)}\hspace{-2pt}\left(\Yk\Xk\wk{+}\uak\right)$%
+%-------------------------------------------------------------------------%
+\Comment{\FSIZE{%
+					$\prox_{\tau\loss}(t)\,{:=}\,
+						\begin{cases}
+							t 		& \text{if } t > 1	\\[-3pt]
+							1 		& \text{if } 1-\tau {\leq} t \,{\leq}\, 1  \\[-3pt]
+							t{+}\tau\!\!\!	& \text{if } t < 1-\tau
+						\end{cases}
+						\nonumber
+					$}}
+%-------------------------------------------------------------------------%
+			\vspace{-1pt}
+			%==================================================%
+			% v4 update
+			%==================================================%
+			\State\HSPACE $\vdk \leftarrow 
+				\big(\Ctil'\Ctil{+}\I_\ptil\big)\inv
+				\big(\Ctil'[\vck+\uck]{+}\A\wk{+}\udk\big)$ 
+				\Comment{\FSIZE{solve using FFT}}\vspace{5.0pt}
+		\EndFor
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+		\vspace{4pt}
+		%=================================================================%
+		% v2 update
+		%=================================================================%
+		\For{$j=1,\dots,p$}
+		\State\HSPACE $\vbj \leftarrow 
+			\vsoft_{\lambda/\rho}\left(\wj+\ubj\right)$%
+			%-------------------------------------------------------------------------%
+\Comment{\FSIZE{$\text{vsoft}_{\tau}(\bmath{t}){:=}\text{max}(1-\frac{\tau}{\norm{\bmath{t}}_2},0) \,\bmath{t},\;\;\bmath{t}\,{\in}\,\reals^K$}}
+			%-------------------------------------------------------------------------%
+		\EndFor
+
+		\vspace{4pt}
+		%=================================================================%
+		% dual update
+		%=================================================================%
+		\For{$k=1,\dots,K$}\Comment{dual variable update}\vspace{1.75pt}
+			\State\HSPACE $\uak \leftarrow \uak + \Yk\Xk\wk-\vak$\vspace{1.75pt}
+			\State\HSPACE $\ubk \leftarrow \ubk + \wk - \vbk$\vspace{1.75pt}
+			\State\HSPACE $\uck \leftarrow \uck + \vck - \Ctil\vdk$\vspace{1.75pt}
+			\State\HSPACE $\udk \leftarrow \udk + \A\wk - \vdk$\vspace{1.75pt}
+		\EndFor\vspace{0pt}
+	\Until{stopping criterion is met}
+}
+\vspace{-0.045\linewidth}\end{spacing}
+\end{algorithmic}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{minipage}}
+\vspace{-22pt}
+\end{figure}

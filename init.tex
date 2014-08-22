@@ -1,0 +1,232 @@
+%*****************************************************************************%
+%		 			Initialization file
+%-----------------------------------------------------------------------------%
+% - Declare packages and definitions
+%*****************************************************************************%
+\usepackage{amsmath,graphicx}
+\usepackage{color}
+\usepackage{xspace}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{amsthm} % <- (06/03/2014) don't include .... conflict with LNCS
+\usepackage{bm}
+\usepackage{bbm} % black-board math - for single-strik rhs for set of REAL numbers, etc.
+\usepackage{afterpage}
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+\usepackage{ulem} % <- for strikeouts ...creates error...god knows why...
+\usepackage{url}
+\usepackage{setspace} % (09/20/2013) for the "spacing" package http://tex.stackexchange.com/questions/16059/vertical-spacing-in-the-algorithm-environment
+
+
+%\usepackage[font=footnotesize,skip=3pt]{subcaption}
+\usepackage{subcaption}
+\usepackage{caption} % <- (06/03/2014) load to get access to "\captionof" command
+\captionsetup{compatibility=false} % <- % http://tex.stackexchange.com/questions/31906/subcaption-package-compatibility-issue (for some reason (god knows why), latex compiler spits out incompatibiltiy issue when trying to load the "subcaption" package....this worked out (06/03/2014)
+%\usepackage[skip=8pt]{caption}
+\usepackage{mathabx} % (09/27/2013) for the \odiv symbol and more...http://www.tex.ac.uk/tex-archive/info/symbols/comprehensive/symbols-a4.pdf
+
+\newcommand{\fig}{./figures}
+
+\newcommand{\dored}[1]		{{\color{red}{#1}}}
+\newcommand{\doblue}[1]		{{\color{blue}{#1}}}
+\newcommand{\doblack}[1]		{{\color{black}{#1}}}
+
+\newcommand{\citep}[1]{\cite{#1}}
+\newcommand{\imwidth}  {0.3\linewidth}
+\newcommand{\imheight}  {0.3\linewidth}
+
+%=============================================================================%
+% abbreviations
+%=============================================================================%
+\newcommand{\etal}		{\emph{et al\@.}\xspace}
+\newcommand{\ie}		{\emph{i.e\@.}\xspace}
+\newcommand{\eg}		{\emph{e.g\@.}\xspace}
+\newcommand{\apriori}	{\emph{a priori}\xspace}
+
+%=============================================================================%
+% math commands
+%=============================================================================%
+\newcommand{\inmath}	{\ensuremath}
+\newcommand{\xmath}[1]	{\ensuremath{#1}\xspace}
+\newcommand{\bmath}[1]	{\xmath{\bm{#1}}}	% needs \usepackage{bm}
+
+\newcommand{\argmax}[1] 	{\operatorname*{arg\,max}_{#1}}
+\newcommand{\argmin}[1] 	{\operatorname*{arg\,min}_{#1}}
+
+\newcommand{\reals}		{\xmath{\mathbb{R}}}
+\newcommand{\naturals}	{\xmath{\mathbb{N}}}
+
+\newcommand{\abs}[1]	{\xmath{\left| #1 \right|}}
+\newcommand{\norm}[1]	{\xmath{\left\| #1 \right\|}}
+%\newcommand{\inprod}[1]	{\xmath{\mathop{\langle #1\rangle}\nolimits}}
+\newcommand{\inprod}[1]	{\xmath{\mathop{\left\langle #1\right\rangle}\nolimits}}
+\newcommand{\braces}[1]	{\xmath{\left\{#1\right\}}}
+\newcommand{\diag}[1]	{\text{diag}\braces{#1}}
+
+\newcommand{\ba}[1]		{\left[ \begin{array}{#1}}
+\newcommand{\ea}		{\end{array} \right]}
+\newcommand{\inv}		{\ensuremath{^{-\!1}}}
+
+% my favorite style of matrix
+\newcommand{\bmat}		{\begin{bmatrix}} % for matrix
+\newcommand{\emat}		{\end{bmatrix}}
+
+%=============================================================================%
+% lazy math commands
+%=============================================================================%
+\newcommand{\x}			{{\bmath{x}}\xspace}
+\newcommand{\w}			{{\bmath{w}}\xspace}
+\renewcommand{\t}			{{\bmath{t}}\xspace}
+\renewcommand{\b}			{{\bmath{b}}\xspace}
+\newcommand{\xtil}			{{\bmath{\tilde{x}}}\xspace}
+\newcommand{\wtil}			{{\bmath{\widetilde{w}}}\xspace}
+\renewcommand{\u}			{{\bmath{u}}\xspace}
+
+% follow the convention that a -> 1, b -> 2, c -> 3...
+\newcommand{\va}			{{\bmath{v_1}}\xspace}
+\newcommand{\vb}			{{\bmath{v_2}}\xspace}
+\newcommand{\vc}			{{\bmath{v_3}}\xspace}
+\newcommand{\vd}			{{\bmath{v_4}}\xspace}
+\newcommand{\ua}			{{\bmath{u_1}}\xspace}
+\newcommand{\ub}			{{\bmath{u_2}}\xspace}
+\newcommand{\uc}			{{\bmath{u_3}}\xspace}
+\newcommand{\ud}			{{\bmath{u_4}}\xspace}
+
+\newcommand{\AL}			{{\bmath{L_\rho}}\xspace}
+\newcommand{\Ctil}			{{\bmath{\widetilde{C}}}\xspace}
+
+\newcommand{\ptil}{{\xmath{\tilde{p}}}}
+\newcommand{\dtil}{{\xmath{\tilde{d}}}}
+
+\newcommand{\A}			{{\bmath{A}}\xspace}
+\newcommand{\B}			{{\bmath{B}}\xspace}
+\newcommand{\C}			{{\bmath{C}}\xspace}
+\newcommand{\D}			{{\bmath{D}}\xspace}
+\newcommand{\Dtil}			{{\bmath{\widetilde{D}}}\xspace}
+\newcommand{\F}			{{\bmath{F}}\xspace}
+\newcommand{\Q}			{{\bmath{Q}}\xspace}
+\newcommand{\BH}			{{\bmath{H}}\xspace}
+\newcommand{\I}			{{\bmath{I}}\xspace}
+\newcommand{\U}			{{\bmath{U}}\xspace}
+\newcommand{\X}			{{\bmath{X}}\xspace}
+\newcommand{\Y}			{{\bmath{Y}}\xspace}
+\newcommand{\YXw}			{{\bmath{YXw}}\xspace}
+\newcommand{\Xw}			{{\bmath{Xw}}\xspace}
+\newcommand{\bzero}			{{\bmath{0}}\xspace}
+
+% bar'ed notations for the canonical admm definition
+\newcommand{\Abar}			{{\bmath{\bar{A}}}\xspace}
+\newcommand{\Bbar}			{{\bmath{\bar{B}}}\xspace}
+\newcommand{\xbar}			{{\bmath{\bar{x}}}\xspace}
+\newcommand{\ybar}			{{\bmath{\bar{y}}}\xspace}
+\newcommand{\bbar}			{{\bmath{\bar{b}}}\xspace}
+\newcommand{\fbar}			{{\bmath{\bar{f}}}\xspace}
+\newcommand{\gbar}			{{\bmath{\bar{g}}}\xspace}
+\newcommand{\ubar}			{{\bmath{\bar{u}}}\xspace}
+\newcommand{\Fbar}			{{\bmath{\bar{F}}}\xspace}
+\newcommand{\Gbar}			{{\bmath{\bar{G}}}\xspace}
+\newcommand{\pbar}{{\xmath{\bar{p}}}}
+\newcommand{\qbar}{{\xmath{\bar{q}}}}
+
+% iteration counter
+\newcommand{\iter}{^{(t)}}
+\newcommand{\iterp}{^{(t+1)}}
+
+% some relevant function notations
+\newcommand{\prox}		{\xmath{\mathrm{Prox}}} % meh, good enough
+\newcommand{\soft}		{\xmath{\mathrm{soft}}}
+\newcommand{\vsoft}		{\xmath{\mathrm{vsoft}}}
+\newcommand{\loss}		{\xmath{\ell}}
+\newcommand{\Loss}		{\xmath{\mathcal{L}}}
+\newcommand{\Reg}{\xmath{\mathcal{R}}}
+\newcommand{\sign}[1] {\text{sign}\left(#1\right)}
+
+% ell related stufs
+\newcommand{\elltwo} {\xmath{\ell_2}}
+\newcommand{\ellone} {\xmath{\ell_1}}
+\newcommand{\ellzero}{\xmath{\ell_0}}
+\newcommand{\ellinf} {\xmath{\ell_\infty}}
+
+\newcommand{\BLambda}		{\xmath{\bmath{\Lambda}}}
+\newcommand{\Bphi}			{\xmath{\bmath{\phi}}}
+\newcommand{\Bzeta}			{\xmath{\bmath{\zeta}}}
+
+%*************************************************************************%
+% post (03/10/2014)
+%*************************************************************************%
+\newcommand{\FSIZE}[1]{\small{#1}} % <- for font-sizes in tables
+\newcommand{\VSPACE}{}
+\newcommand{\HSPACE}{}
+
+\newcommand{\STL}{\xmath{\ellone/\ellone}}
+\newcommand{\MTL}{\xmath{\ellone/\elltwo}}
+
+\newcommand{\editing}[1]		{{\color{blue}{#1}}}
+\newcommand{\toedit}[1]		{{\color{red}{#1}}}
+\newcommand{\done}[1]		{{\color{purple}{#1}}}
+\newcommand{\dopurple}[1]		{{\color{purple}{#1}}}
+\newcommand{\dowhite}[1]		{{\color{white}{#1}}}
+
+\newcommand{\xik}{\xmath{\x_i^k}}
+\newcommand{\Xk}{\xmath{\X^k}}
+\newcommand{\yik}{\xmath{y_i^k}}
+\newcommand{\Yk}{\xmath{\Y^k}}
+\newcommand{\wk}{\xmath{\w^k}}
+\newcommand{\wall}{\xmath{\underline{\w}}}
+\newcommand{\wset}{\xmath{\w^1,\dots,\w^K}}
+\newcommand{\Rp}{\xmath{\reals^p}}
+\newcommand{\RKp}{\xmath{\reals^{Kp}}}
+\newcommand{\RpK}{\xmath{\reals^{pK}}}
+\newcommand{\R}{\reals}
+\newcommand{\RegA}{\xmath{\Reg_1}}
+\newcommand{\RegB}{\xmath{\Reg_2}}
+
+\newcommand{\Bv}{\bmath{v}}
+\newcommand{\vak}			{{\bmath{v_1}^k}\xspace}
+\newcommand{\vbk}			{{\bmath{v_2}^k}\xspace}
+\newcommand{\vck}			{{\bmath{v_3}^k}\xspace}
+\newcommand{\vdk}			{{\bmath{v_4}^k}\xspace}
+\newcommand{\uak}			{{\bmath{u_1}^k}\xspace}
+\newcommand{\ubk}			{{\bmath{u_2}^k}\xspace}
+\newcommand{\uck}			{{\bmath{u_3}^k}\xspace}
+\newcommand{\udk}			{{\bmath{u_4}^k}\xspace}
+
+\newcommand{\wj}{\xmath{\w_j}}
+\newcommand{\vbj}{\xmath{\Bv_{2,j}}}
+\newcommand{\ubj}{\xmath{\u_{2,j}}}
+
+%=========================================================================%
+% Tampering with margins
+%% http://www.cs.dartmouth.edu/~dfk/latex-squeeze.html
+% http://tex.stackexchange.com/questions/23313/how-can-i-reduce-padding-after-figure
+%-------------------------------------------------------------------------%
+% Change float margin http://tex.stackexchange.com/questions/24707/control-top-and-bottom-margins-of-an-image http://tex.stackexchange.com/questions/23313/how-can-i-reduce-padding-after-figure
+%%\setlength{\textfloatsep}{1pt} 
+\setlength{\belowcaptionskip}{0pt}
+\setlength{\textfloatsep}{15pt}% <- to suppress annoying white-space after alg and figure
+%\setlength{\intextsep}{15pt}
+%-------------------------------------------------------------------------%
+% equation margins\
+% http://tex.stackexchange.com/questions/30909/abovedisplayskip-vs-abovedisplayshortskip
+% http://www.latex-community.org/forum/viewtopic.php?f=4&t=2284
+% % % % % % %  
+% Remark (06/03/2014)
+% - for some reason, in this lncs template, these needed to be defined after abstract
+%*************************************************************************%%
+%\setlength{\abovedisplayskip}{-13.5pt} 
+%\setlength{\belowdisplayskip}{3.25pt}
+%\setlength{\abovedisplayshortskip}{0pt}
+%\setlength{\belowdisplayshortskip}{0pt}
+%\setlength{\jot}{2pt} % <- adjusts vertical spacing in align mode (for mutliple equation lines)
+%-------------------------------------------------------------------------%
+
+
+\usepackage{enumitem} %<- % http://tex.stackexchange.com/questions/91124/itemize-removing-natural-indent, http://stackoverflow.com/questions/4968557/latex-very-compact-itemize
+\usepackage{booktabs} % <- for bolded top line (\toprule command)
+\usepackage{lipsum} % <- text fillers
+\usepackage{anyfontsize} % <- for \fontsize (eg: \fontsize{23}{28}\selectfont foo) http://tex.stackexchange.com/questions/265/fonts-larger-than-huge
+\newcommand{\tfontsize}[2]{{\fontsize{#1}{#1}\selectfont{#2}}}
+\usepackage[sort]{cite} % <- to allow multiple citationin in a single bracket (eg, \cite{paper1,paper2,paper3})
+ \DeclareTextFontCommand{\emph}{\itshape} % <- change default font of \emph
+\usepackage[section]{placeins} % <- ensures figures/floats won't jump to the very end of the page http://tex.stackexchange.com/questions/279/how-do-i-ensure-that-figures-appear-in-the-section-theyre-associated-with 
